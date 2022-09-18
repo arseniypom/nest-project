@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -13,7 +11,7 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_AUTHDATABASE}`,
     ),
-    UsersModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
