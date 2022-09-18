@@ -3,16 +3,19 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
-  @Prop({ unique: true })
+  @Prop({ unique: true, required: true, trim: true })
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
 
+  @Prop({ default: false })
+  isBanned: boolean;
+
   @Prop()
-  role: string;
+  banReason: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
