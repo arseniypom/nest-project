@@ -9,6 +9,7 @@ import {
   Put,
   Res,
 } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { UserService } from './users.service';
 
@@ -33,7 +34,7 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Res() response, @Body() user: User) {
+  async createUser(@Res() response, @Body() user: CreateUserDto) {
     const newUser = await this.userService.create(user);
     return response.status(HttpStatus.CREATED).json({
       newUser,
