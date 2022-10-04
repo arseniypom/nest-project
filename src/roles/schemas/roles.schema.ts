@@ -8,7 +8,8 @@ export type RoleDocument = Role & Document;
 @Schema()
 export class Role {
   @ApiProperty({ example: '113dagwh14352fs', description: 'Unique role id' })
-  @Prop({ type: Types.ObjectId })
+  // If we use @Prop decorator here, we have to initialize the role's _id manually when creating it
+  // @Prop({ type: Types.ObjectId })
   _id: Types.ObjectId;
 
   @ApiProperty({ example: 'ADMIN', description: 'Unique role name' })

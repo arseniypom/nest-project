@@ -8,7 +8,8 @@ export type UserDocument = User & Document;
 @Schema({ timestamps: true })
 export class User {
   @ApiProperty({ example: '113dagwh14352fs', description: 'Unique user id' })
-  @Prop({ type: Types.ObjectId })
+  // If we use @Prop decorator here, we have to initialize the user's _id manually when creating it
+  // @Prop({ type: Types.ObjectId })
   _id: Types.ObjectId;
 
   @ApiProperty({ example: 'abc@gmail.com', description: 'Email' })
