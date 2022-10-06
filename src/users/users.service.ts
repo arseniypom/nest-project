@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RolesService } from 'src/roles/roles.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private rolesService: RolesService,
+  ) {}
 
   async readAll(): Promise<User[]> {
     return await this.userModel.find().exec();
@@ -18,6 +22,8 @@ export class UserService {
 
   async create(user: CreateUserDto): Promise<User> {
     const newUser = new this.userModel(user);
+    const role = await this.rolesService.getRoleByValue('USER');
+    newUser.roles = [role._id];
     return newUser.save();
   }
 
