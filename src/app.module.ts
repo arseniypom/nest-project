@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { RolesModule } from './roles/roles.module';
     ),
     UserModule,
     RolesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
