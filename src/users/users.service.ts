@@ -21,12 +21,12 @@ export class UserService {
   }
 
   async readByEmail(email): Promise<User> {
-    return await this.userModel.findOne({ email }).exec();
+    return await this.userModel.findOne({ email }).populate('roles').exec();
   }
 
   async create(user: CreateUserDto): Promise<User> {
     const newUser = new this.userModel(user);
-    const role = await this.rolesService.getRoleByValue('USER');
+    const role = await this.rolesService.getRoleByValue('ADMIN');
     newUser.roles = [role._id];
     return newUser.save();
   }
