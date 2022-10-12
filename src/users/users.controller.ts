@@ -15,6 +15,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { AddRoleDto } from './dto/add-role.dto';
+import { BanUserDto } from './dto/ban-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { UserService } from './users.service';
@@ -24,7 +26,7 @@ import { UserService } from './users.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ApiOperation({ summary: 'Get all users' })
+  @ApiOperation({ summary: 'Get all users (ADMIN-ONLY)' })
   @ApiResponse({ status: 200, type: [User] })
   @Roles('ADMIN')
   @UseGuards(RolesGuard)
@@ -76,6 +78,30 @@ export class UserController {
     const deletedUser = await this.userService.delete(id);
     return response.status(HttpStatus.OK).json({
       deletedUser,
+    });
+  }
+
+  @ApiOperation({ summary: 'Assign role to user (ADMIN-ONLY)' })
+  @ApiResponse({ status: 200 })
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Post('/role')
+  async addRole(@Body() dto: AddRoleDto, @Res() response) {
+    const user = await this.userService.addRole(dto);
+    return response.status(HttpStatus.OK).json({
+      user,
+    });
+  }
+
+  @ApiOperation({ summary: 'Ban user (ADMIN-ONLY)' })
+  @ApiResponse({ status: 200 })
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Post('/ban')
+  async ban(@Body() dto: BanUserDto, @Res() response) {
+    const user = await this.userService.ban(dto);
+    return response.status(HttpStatus.OK).json({
+      user,
     });
   }
 }
