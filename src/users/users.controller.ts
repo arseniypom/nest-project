@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -40,6 +41,9 @@ export class UserController {
   @Get('/:id')
   async fetchById(@Res() response, @Param('id') id) {
     const user = await this.userService.readById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
     return response.status(HttpStatus.OK).json({
       user,
     });
