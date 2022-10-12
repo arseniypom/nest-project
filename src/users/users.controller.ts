@@ -35,6 +35,8 @@ export class UserController {
     });
   }
 
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiResponse({ status: 200, type: User })
   @Get('/:id')
   async fetchById(@Res() response, @Param('id') id) {
     const user = await this.userService.readById(id);
@@ -44,7 +46,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'New user creation' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 201, type: User })
   @Post()
   async createUser(@Res() response, @Body() user: CreateUserDto) {
     const newUser = await this.userService.create(user);
@@ -53,6 +55,8 @@ export class UserController {
     });
   }
 
+  @ApiOperation({ summary: 'Update user data by id' })
+  @ApiResponse({ status: 200, type: User })
   @Put('/:id')
   async updateUser(@Res() response, @Param('id') id, @Body() user: User) {
     const newUser = await this.userService.update(id, user);
@@ -61,6 +65,8 @@ export class UserController {
     });
   }
 
+  @ApiOperation({ summary: 'Delete user by id' })
+  @ApiResponse({ status: 200, type: User })
   @Delete('/:id')
   async deleteUser(@Res() response, @Param('id') id) {
     const deletedUser = await this.userService.delete(id);
